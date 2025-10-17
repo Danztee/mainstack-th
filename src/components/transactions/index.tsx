@@ -5,6 +5,7 @@ import TransactionItem from "./transaction-item";
 import { Button } from "../ui/button";
 import { ChevronDownIcon, DownloadIcon } from "lucide-react";
 import FilterDialog from "../dialogs/filter-dialog";
+import { Transaction } from "@/types";
 
 interface TransactionsProps {
   transactions: Transaction[];

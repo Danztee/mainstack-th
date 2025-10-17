@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
+import { Transaction } from "@/types";
 
 const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
   const date = new Date(transaction.date);

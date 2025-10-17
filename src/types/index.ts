@@ -1,4 +1,4 @@
-interface Transaction {
+export interface Transaction {
   amount: number;
   metadata?: {
     name: string;
@@ -12,4 +12,12 @@ interface Transaction {
   status: string;
   type: "deposit" | "withdrawal" | string;
   date: string;
+}
+
+export interface WalletData {
+  balance: number;
+  total_payout: number;
+  total_revenue: number;
+  pending_payout: number;
+  ledger_balance: number;
 }
