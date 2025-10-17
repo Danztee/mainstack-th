@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -8,16 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { ChevronDownIcon, CheckIcon } from "lucide-react";
 import { format } from "date-fns";
+import { ChevronDownIcon } from "lucide-react";
+import { useState } from "react";
 
 interface FilterDialogProps {
   open: boolean;
@@ -99,7 +94,7 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
             {filterButtons.map((filter) => (
               <Button
                 key={filter.id}
-                className={`flex-1 rounded-full font-semibold border border-[#EFF1F6] bg-transparent ${
+                className={`h-[36px] flex-1 rounded-full font-semibold border border-[#EFF1F6] bg-transparent ${
                   selectedPeriod === filter.id
                     ? "bg-[#131316] hover:bg-[#131316] text-white"
                     : "bg-transparent hover:bg-[#EFF1F6] text-[#131316]"
@@ -115,8 +110,9 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
             <label className="font-semibold text-[#131316]">Date Range</label>
             <div className="flex items-center gap-2 mt-2">
               <Button
+                size="lg"
                 variant="outline"
-                className={`flex-1 justify-between text-left font-normal rounded-lg ${
+                className={`h-[48px] flex-1 justify-between text-left font-normal rounded-lg ${
                   isFromCalendarOpen
                     ? "border-[#131316] border-3"
                     : "border-[#EFF1F6]"
@@ -135,8 +131,9 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
               </Button>
 
               <Button
+                size="lg"
                 variant="outline"
-                className={`flex-1 justify-between text-left font-normal rounded-lg ${
+                className={`h-[48px] flex-1 justify-between text-left font-normal rounded-lg ${
                   isToCalendarOpen
                     ? "border-[#131316] border-3"
                     : "border-[#EFF1F6]"
@@ -180,8 +177,9 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
 
             <div className="mt-2"></div>
             <Button
+              size="lg"
               variant="outline"
-              className={`w-full justify-between text-left font-normal rounded-lg ${
+              className={`h-[48px] w-full justify-between text-left font-normal rounded-lg ${
                 isTypeDropdownOpen
                   ? "border-[#131316] border-3"
                   : "border-[#EFF1F6]"
@@ -242,7 +240,8 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
             <div className="mt-2"></div>
             <Button
               variant="outline"
-              className={`w-full justify-between text-left font-normal rounded-lg ${
+              size="lg"
+              className={`h-[48px] w-full justify-between text-left font-normal rounded-lg ${
                 isStatusDropdownOpen
                   ? "border-[#131316] border-3"
                   : "border-[#EFF1F6]"
@@ -296,6 +295,60 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Footer with Clear and Apply buttons */}
+          <div className="flex items-center gap-3 pt-20">
+            <Button
+              variant="outline"
+              size="lg"
+              className="h-12 flex-1 border-[#EFF1F6] text-[#131316] hover:bg-[#EFF1F6] rounded-full font-semibold"
+              onClick={() => {
+                setSelectedPeriod(null);
+                setDateFrom(undefined);
+                setDateTo(undefined);
+                setSelectedStatuses([]);
+                setSelectedTypes([]);
+                setIsFromCalendarOpen(false);
+                setIsToCalendarOpen(false);
+                setIsStatusDropdownOpen(false);
+                setIsTypeDropdownOpen(false);
+              }}
+            >
+              Clear
+            </Button>
+            <Button
+              size="lg"
+              className={`h-12 flex-1 rounded-full font-semibold disabled:bg-[#DBDEE5] disabled:text-[#fff] ${
+                selectedPeriod ||
+                dateFrom ||
+                dateTo ||
+                selectedStatuses.length > 0 ||
+                selectedTypes.length > 0
+                  ? "bg-[#131316] hover:bg-[#131316] text-white"
+                  : "bg-[#EFF1F6] text-[#56616B] cursor-not-allowed"
+              }`}
+              disabled={
+                !selectedPeriod &&
+                !dateFrom &&
+                !dateTo &&
+                selectedStatuses.length === 0 &&
+                selectedTypes.length === 0
+              }
+              onClick={() => {
+                // Handle apply logic here
+                console.log("Apply filters:", {
+                  period: selectedPeriod,
+                  dateFrom,
+                  dateTo,
+                  statuses: selectedStatuses,
+                  types: selectedTypes,
+                });
+                onOpenChange(false);
+              }}
+            >
+              Apply
+            </Button>
           </div>
         </div>
       </DialogContent>
