@@ -12,6 +12,7 @@ import {
   getActiveFiltersCount,
   getFilterDescription,
 } from "@/lib/filters";
+import NoFilter from "./no-filter";
 
 interface TransactionsProps {
   transactions: Transaction[];
@@ -118,9 +119,27 @@ const Transactions = ({ transactions }: TransactionsProps) => {
       <hr className="text-[#EFF1F6] mt-4" />
 
       <div className="mt-6 space-y-5">
-        {filteredTransactions.map((transaction, index) => (
-          <TransactionItem key={index} transaction={transaction} />
-        ))}
+        {filteredTransactions.length === 0 ? (
+          <div className="py-10">
+            <NoFilter
+              onClearFilters={() => {
+                const clearedFilters = {
+                  period: null,
+                  dateFrom: undefined,
+                  dateTo: undefined,
+                  statuses: [],
+                  types: [],
+                };
+                setAppliedFilters(clearedFilters);
+                setDraftFilters(clearedFilters);
+              }}
+            />
+          </div>
+        ) : (
+          filteredTransactions.map((transaction, index) => (
+            <TransactionItem key={index} transaction={transaction} />
+          ))
+        )}
       </div>
 
       <FilterDialog

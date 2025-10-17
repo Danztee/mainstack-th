@@ -313,13 +313,15 @@ const FilterDialog = ({
               size="lg"
               className="h-12 flex-1 border-[#EFF1F6] text-[#131316] hover:bg-[#EFF1F6] rounded-full font-semibold"
               onClick={() => {
-                onFiltersChange({
+                const clearedFilters = {
                   period: null,
                   dateFrom: undefined,
                   dateTo: undefined,
                   statuses: [],
                   types: [],
-                });
+                };
+                onFiltersChange(clearedFilters);
+                onApply(clearedFilters);
                 setIsFromCalendarOpen(false);
                 setIsToCalendarOpen(false);
                 setIsStatusDropdownOpen(false);
