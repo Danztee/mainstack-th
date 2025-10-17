@@ -163,7 +163,7 @@ export default function Home() {
         </aside>
       </section>
 
-      <Transactions />
+      <Transactions transactions={transactions} />
     </div>
   );
 }
