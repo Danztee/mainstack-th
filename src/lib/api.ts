@@ -4,9 +4,7 @@ const API_BASE_URL = "https://fe-task-api.mainstack.io";
 
 export async function fetchTransactions(): Promise<Transaction[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/transactions`, {
-      next: { revalidate: 60 }, // Revalidate every 60 seconds
-    });
+    const response = await fetch(`${API_BASE_URL}/transactions`, {});
 
     if (!response.ok) {
       throw new Error("Failed to fetch transactions");
@@ -21,9 +19,7 @@ export async function fetchTransactions(): Promise<Transaction[]> {
 
 export async function fetchWalletData(): Promise<WalletData> {
   try {
-    const response = await fetch(`${API_BASE_URL}/wallet`, {
-      next: { revalidate: 60 }, // Revalidate every 60 seconds
-    });
+    const response = await fetch(`${API_BASE_URL}/wallet`, {});
 
     if (!response.ok) {
       throw new Error("Failed to fetch wallet data");

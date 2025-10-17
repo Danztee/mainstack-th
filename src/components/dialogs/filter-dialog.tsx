@@ -13,36 +13,36 @@ import {
 import { format } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
+import {
+  FilterState,
+  FilterPeriod,
+  TransactionStatus,
+  TransactionType,
+} from "@/lib/filters";
 
 interface FilterDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  filters: FilterState;
+  onFiltersChange: (filters: FilterState) => void;
+  onApply: (filters: FilterState) => void;
 }
 
-type FilterPeriod = "today" | "last7days" | "thisMonth" | "last3Months";
-type TransactionStatus = "successful" | "pending" | "failed";
-type TransactionType =
-  | "storeTransactions"
-  | "getTipped"
-  | "withdrawal"
-  | "chargebacks"
-  | "cashbacks"
-  | "referAndEarn";
-
-const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
-  const [selectedPeriod, setSelectedPeriod] = useState<FilterPeriod | null>(
-    null
-  );
-  const [dateFrom, setDateFrom] = useState<Date>();
-  const [dateTo, setDateTo] = useState<Date>();
+const FilterDialog = ({
+  open,
+  onOpenChange,
+  filters,
+  onFiltersChange,
+  onApply,
+}: FilterDialogProps) => {
   const [isFromCalendarOpen, setIsFromCalendarOpen] = useState(false);
   const [isToCalendarOpen, setIsToCalendarOpen] = useState(false);
-  const [selectedStatuses, setSelectedStatuses] = useState<TransactionStatus[]>(
-    []
-  );
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
-  const [selectedTypes, setSelectedTypes] = useState<TransactionType[]>([]);
   const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
+
+  const updateFilters = (updates: Partial<FilterState>) => {
+    onFiltersChange({ ...filters, ...updates });
+  };
 
   const filterButtons = [
     { id: "today" as FilterPeriod, label: "Today" },
@@ -67,17 +67,17 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
   ];
 
   const handleStatusToggle = (status: TransactionStatus) => {
-    setSelectedStatuses((prev) =>
-      prev.includes(status)
-        ? prev.filter((s) => s !== status)
-        : [...prev, status]
-    );
+    const newStatuses = filters.statuses.includes(status)
+      ? filters.statuses.filter((s) => s !== status)
+      : [...filters.statuses, status];
+    updateFilters({ statuses: newStatuses });
   };
 
   const handleTypeToggle = (type: TransactionType) => {
-    setSelectedTypes((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-    );
+    const newTypes = filters.types.includes(type)
+      ? filters.types.filter((t) => t !== type)
+      : [...filters.types, type];
+    updateFilters({ types: newTypes });
   };
 
   return (
@@ -95,11 +95,11 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
               <Button
                 key={filter.id}
                 className={`h-[36px] flex-1 rounded-full font-semibold border border-[#EFF1F6] bg-transparent ${
-                  selectedPeriod === filter.id
+                  filters.period === filter.id
                     ? "bg-[#131316] hover:bg-[#131316] text-white"
                     : "bg-transparent hover:bg-[#EFF1F6] text-[#131316]"
                 }`}
-                onClick={() => setSelectedPeriod(filter.id)}
+                onClick={() => updateFilters({ period: filter.id })}
               >
                 {filter.label}
               </Button>
@@ -117,7 +117,7 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                     ? "border-[#131316] border-3"
                     : "border-[#EFF1F6]"
                 } ${
-                  dateFrom || isFromCalendarOpen
+                  filters.dateFrom || isFromCalendarOpen
                     ? "bg-white hover:bg-white"
                     : "bg-[#EFF1F6] hover:bg-[#EFF1F6]"
                 }`}
@@ -126,7 +126,9 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                   setIsFromCalendarOpen(!isFromCalendarOpen);
                 }}
               >
-                <span>{dateFrom ? format(dateFrom, "PPP") : "From"}</span>
+                <span>
+                  {filters.dateFrom ? format(filters.dateFrom, "PPP") : "From"}
+                </span>
                 <ChevronDownIcon className="h-4 w-4" />
               </Button>
 
@@ -138,7 +140,7 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                     ? "border-[#131316] border-3"
                     : "border-[#EFF1F6]"
                 } ${
-                  dateTo || isToCalendarOpen
+                  filters.dateTo || isToCalendarOpen
                     ? "bg-white hover:bg-white"
                     : "bg-[#EFF1F6] hover:bg-[#EFF1F6]"
                 }`}
@@ -147,7 +149,9 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                   setIsToCalendarOpen(!isToCalendarOpen);
                 }}
               >
-                <span>{dateTo ? format(dateTo, "PPP") : "To"}</span>
+                <span>
+                  {filters.dateTo ? format(filters.dateTo, "PPP") : "To"}
+                </span>
                 <ChevronDownIcon className="h-4 w-4" />
               </Button>
             </div>
@@ -156,9 +160,14 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
               <div className="mt-4 w-full">
                 <Calendar
                   mode="single"
-                  selected={isFromCalendarOpen ? dateFrom : dateTo}
-                  onSelect={isFromCalendarOpen ? setDateFrom : setDateTo}
-                  initialFocus
+                  selected={
+                    isFromCalendarOpen ? filters.dateFrom : filters.dateTo
+                  }
+                  onSelect={
+                    isFromCalendarOpen
+                      ? (date) => updateFilters({ dateFrom: date })
+                      : (date) => updateFilters({ dateTo: date })
+                  }
                   className="w-full rounded-2xl"
                   style={{
                     boxShadow:
@@ -184,18 +193,18 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                   ? "border-[#131316] border-3"
                   : "border-[#EFF1F6]"
               } ${
-                selectedTypes.length > 0 || isTypeDropdownOpen
+                filters.types.length > 0 || isTypeDropdownOpen
                   ? "bg-white hover:bg-white"
                   : "bg-[#EFF1F6] hover:bg-[#EFF1F6]"
               }`}
               onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
             >
               <span>
-                {selectedTypes.length === 0
+                {filters.types.length === 0
                   ? "Select Type"
-                  : selectedTypes.length === 1
-                  ? typeOptions.find((t) => t.id === selectedTypes[0])?.label
-                  : selectedTypes
+                  : filters.types.length === 1
+                  ? typeOptions.find((t) => t.id === filters.types[0])?.label
+                  : filters.types
                       .map(
                         (typeId) =>
                           typeOptions.find((t) => t.id === typeId)?.label
@@ -221,7 +230,7 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                       onClick={() => handleTypeToggle(type.id)}
                     >
                       <Checkbox
-                        checked={selectedTypes.includes(type.id)}
+                        checked={filters.types.includes(type.id)}
                         onChange={() => handleTypeToggle(type.id)}
                       />
                       <span className="text-sm font-medium">{type.label}</span>
@@ -246,19 +255,19 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                   ? "border-[#131316] border-3"
                   : "border-[#EFF1F6]"
               } ${
-                selectedStatuses.length > 0 || isStatusDropdownOpen
+                filters.statuses.length > 0 || isStatusDropdownOpen
                   ? "bg-white hover:bg-white"
                   : "bg-[#EFF1F6] hover:bg-[#EFF1F6]"
               }`}
               onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
             >
               <span>
-                {selectedStatuses.length === 0
+                {filters.statuses.length === 0
                   ? "Select Status"
-                  : selectedStatuses.length === 1
-                  ? statusOptions.find((s) => s.id === selectedStatuses[0])
+                  : filters.statuses.length === 1
+                  ? statusOptions.find((s) => s.id === filters.statuses[0])
                       ?.label
-                  : selectedStatuses
+                  : filters.statuses
                       .map(
                         (statusId) =>
                           statusOptions.find((s) => s.id === statusId)?.label
@@ -284,7 +293,7 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                       onClick={() => handleStatusToggle(status.id)}
                     >
                       <Checkbox
-                        checked={selectedStatuses.includes(status.id)}
+                        checked={filters.statuses.includes(status.id)}
                         onChange={() => handleStatusToggle(status.id)}
                       />
                       <span className="text-sm font-medium">
@@ -304,11 +313,13 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
               size="lg"
               className="h-12 flex-1 border-[#EFF1F6] text-[#131316] hover:bg-[#EFF1F6] rounded-full font-semibold"
               onClick={() => {
-                setSelectedPeriod(null);
-                setDateFrom(undefined);
-                setDateTo(undefined);
-                setSelectedStatuses([]);
-                setSelectedTypes([]);
+                onFiltersChange({
+                  period: null,
+                  dateFrom: undefined,
+                  dateTo: undefined,
+                  statuses: [],
+                  types: [],
+                });
                 setIsFromCalendarOpen(false);
                 setIsToCalendarOpen(false);
                 setIsStatusDropdownOpen(false);
@@ -320,31 +331,23 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
             <Button
               size="lg"
               className={`h-12 flex-1 rounded-full font-semibold disabled:bg-[#DBDEE5] disabled:text-[#fff] ${
-                selectedPeriod ||
-                dateFrom ||
-                dateTo ||
-                selectedStatuses.length > 0 ||
-                selectedTypes.length > 0
+                filters.period ||
+                filters.dateFrom ||
+                filters.dateTo ||
+                filters.statuses.length > 0 ||
+                filters.types.length > 0
                   ? "bg-[#131316] hover:bg-[#131316] text-white"
                   : "bg-[#EFF1F6] text-[#56616B] cursor-not-allowed"
               }`}
               disabled={
-                !selectedPeriod &&
-                !dateFrom &&
-                !dateTo &&
-                selectedStatuses.length === 0 &&
-                selectedTypes.length === 0
+                !filters.period &&
+                !filters.dateFrom &&
+                !filters.dateTo &&
+                filters.statuses.length === 0 &&
+                filters.types.length === 0
               }
               onClick={() => {
-                // Handle apply logic here
-                console.log("Apply filters:", {
-                  period: selectedPeriod,
-                  dateFrom,
-                  dateTo,
-                  statuses: selectedStatuses,
-                  types: selectedTypes,
-                });
-                onOpenChange(false);
+                onApply(filters);
               }}
             >
               Apply

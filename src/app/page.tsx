@@ -4,7 +4,6 @@ import { fetchTransactions, fetchWalletData } from "@/lib/api";
 import { Transaction } from "@/types";
 
 export default async function Home() {
-  // Fetch data from APIs in parallel
   const [transactions, data] = await Promise.all([
     fetchTransactions(),
     fetchWalletData(),
