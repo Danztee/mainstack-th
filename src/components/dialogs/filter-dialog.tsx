@@ -26,7 +26,13 @@ interface FilterDialogProps {
 
 type FilterPeriod = "today" | "last7days" | "thisMonth" | "last3Months";
 type TransactionStatus = "successful" | "pending" | "failed";
-type TransactionType = "storeTransactions" | "getTipped" | "withdrawal" | "chargebacks" | "cashbacks" | "referAndEarn";
+type TransactionType =
+  | "storeTransactions"
+  | "getTipped"
+  | "withdrawal"
+  | "chargebacks"
+  | "cashbacks"
+  | "referAndEarn";
 
 const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
   const [selectedPeriod, setSelectedPeriod] = useState<FilterPeriod | null>(
@@ -75,9 +81,7 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
 
   const handleTypeToggle = (type: TransactionType) => {
     setSelectedTypes((prev) =>
-      prev.includes(type)
-        ? prev.filter((t) => t !== type)
-        : [...prev, type]
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
 
@@ -90,7 +94,7 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <div className="py-4 space-y-6">
+        <div className="pb-4 space-y-6">
           <div className="flex items-center gap-2">
             {filterButtons.map((filter) => (
               <Button
@@ -164,6 +168,68 @@ const FilterDialog = ({ open, onOpenChange }: FilterDialogProps) => {
                       "0px 6px 12px 0px #5C738314, 0px 4px 8px 0px #5C738314",
                   }}
                 />
+              </div>
+            )}
+          </div>
+
+          {/* Transaction Type Multi-Select */}
+          <div className="space-y-2">
+            <label className="font-semibold text-[#131316]">
+              Transaction Type
+            </label>
+
+            <div className="mt-2"></div>
+            <Button
+              variant="outline"
+              className={`w-full justify-between text-left font-normal rounded-lg ${
+                isTypeDropdownOpen
+                  ? "border-[#131316] border-3"
+                  : "border-[#EFF1F6]"
+              } ${
+                selectedTypes.length > 0 || isTypeDropdownOpen
+                  ? "bg-white hover:bg-white"
+                  : "bg-[#EFF1F6] hover:bg-[#EFF1F6]"
+              }`}
+              onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
+            >
+              <span>
+                {selectedTypes.length === 0
+                  ? "Select Type"
+                  : selectedTypes.length === 1
+                  ? typeOptions.find((t) => t.id === selectedTypes[0])?.label
+                  : selectedTypes
+                      .map(
+                        (typeId) =>
+                          typeOptions.find((t) => t.id === typeId)?.label
+                      )
+                      .join(", ")}
+              </span>
+              <ChevronDownIcon className="h-4 w-4" />
+            </Button>
+
+            {isTypeDropdownOpen && (
+              <div
+                className="mt-4 w-full p-4 rounded-2xl bg-white"
+                style={{
+                  boxShadow:
+                    "0px 6px 12px 0px #5C738314, 0px 4px 8px 0px #5C738314",
+                }}
+              >
+                <div className="space-y-3">
+                  {typeOptions.map((type) => (
+                    <div
+                      key={type.id}
+                      className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded"
+                      onClick={() => handleTypeToggle(type.id)}
+                    >
+                      <Checkbox
+                        checked={selectedTypes.includes(type.id)}
+                        onChange={() => handleTypeToggle(type.id)}
+                      />
+                      <span className="text-sm font-medium">{type.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
