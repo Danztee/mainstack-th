@@ -7,6 +7,7 @@ import { fetchTransactions, fetchWalletData } from "@/lib/api";
 import { Transaction } from "@/types";
 import { Button } from "@/components/ui/button";
 import { ChartLine } from "@/components/chart-line";
+import { FullPageLoading } from "@/components/loading";
 
 export default function Home() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -20,20 +21,58 @@ export default function Home() {
   const [filteredTransactions, setFilteredTransactions] = useState<
     Transaction[]
   >([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
-      const [transactionsData, walletData] = await Promise.all([
-        fetchTransactions(),
-        fetchWalletData(),
-      ]);
-      setTransactions(transactionsData);
-      setData(walletData);
-      setFilteredTransactions(transactionsData);
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const [transactionsData, walletData] = await Promise.all([
+          fetchTransactions(),
+          fetchWalletData(),
+        ]);
+
+        setTransactions(transactionsData);
+        setData(walletData);
+        setFilteredTransactions(transactionsData);
+      } catch (err) {
+        console.error("Error loading data:", err);
+        setError(err instanceof Error ? err.message : "Failed to load data");
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     loadData();
   }, []);
+
+  if (isLoading) {
+    return <FullPageLoading />;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-[1200px] mx-auto p-8 text-center">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-8">
+            <h2 className="text-red-800 text-xl font-semibold mb-2">
+              Error Loading Data
+            </h2>
+            <p className="text-red-600 mb-4">{error}</p>
+            <Button
+              onClick={() => window.location.reload()}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-[1200px] mx-auto p-8">
