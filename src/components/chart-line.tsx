@@ -99,8 +99,8 @@ export function ChartLine({ transactions }: ChartLineProps) {
         <LineChart
           accessibilityLayer
           data={chartData}
-          width="100%"
-          height="100%"
+          width={100}
+          height={100}
           margin={{
             left: 50,
             right: 50,

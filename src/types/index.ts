@@ -21,3 +21,9 @@ export interface WalletData {
   pending_payout: number;
   ledger_balance: number;
 }
+
+export interface User {
+  first_name: string;
+  last_name: string;
+  email: string;
+}

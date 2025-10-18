@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Transactions from "@/components/transactions";
-import { fetchTransactions, fetchWalletData } from "@/lib/api";
+import { fetchTransactions, fetchWalletData } from "@/lib/actions";
 import { Transaction } from "@/types";
 import { Button } from "@/components/ui/button";
 import { ChartLine } from "@/components/chart-line";

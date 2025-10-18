@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { MenuIcon } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import UserMenu from "@/components/user-menu";
 
 export default function Navbar() {
   const links = [
@@ -52,21 +51,7 @@ export default function Navbar() {
           <Image src="/chat.svg" alt="chat" width={20} height={20} />
         </button>
 
-        <div className="bg-[#EFF1F6] text-[#56616B] rounded-full p-2 flex items-center gap-2 px-4">
-          <Avatar className="h-10 w-10">
-            <AvatarFallback
-              className="text-white"
-              style={{
-                background:
-                  "linear-gradient(138.98deg, #5C6670 2.33%, #131316 96.28%)",
-              }}
-            >
-              OA
-            </AvatarFallback>
-          </Avatar>
-
-          <MenuIcon className="h-6 w-6" />
-        </div>
+        <UserMenu />
       </div>
     </nav>
   );

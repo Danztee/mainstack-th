@@ -1,26 +1,64 @@
-"use client";
-
-import { useState } from "react";
 import Navbar from "@/components/navbar";
+import Image from "next/image";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const icons = [
+    {
+      title: "",
+      icon: "/prod-1.svg",
+    },
+    {
+      title: "",
+      icon: "/prod-2.svg",
+    },
+    {
+      title: "",
+      icon: "/prod-3.svg",
+    },
+    {
+      title: "",
+      icon: "/prod-4.svg",
+    },
+  ];
 
   return (
-    <div className="p-6">
-      <Navbar />
+    <div className="min-h-screen">
+      <div className="fixed top-6 left-6 right-6 z-50">
+        <Navbar />
+      </div>
 
-      <div className="flex">
-        {/* Sidebar */}
+      <div className="pt-24 px-6">
+        <div className="flex">
+          <aside className="w-20 h-screen relative">
+            <div
+              className="bg-white h-fit w-fit p-4 rounded-full space-y-8 fixed top-1/2 left-10 transform -translate-y-1/2"
+              style={{
+                boxShadow:
+                  "0px 6px 12px 0px #5C738314, 0px 4px 8px 0px #5C738314",
+              }}
+            >
+              {icons.map((icon, index) => (
+                <div key={index}>
+                  <Image
+                    src={icon.icon}
+                    alt={icon.title}
+                    width={20}
+                    height={20}
+                    className="w-6 h-6 grayscale hover:grayscale-0 transition-all duration-200"
+                  />
+                </div>
+              ))}
+            </div>
+          </aside>
 
-        {/* Main content */}
-        <main className="flex-1 lg:ml-0">
-          <div className="p-6">{children}</div>
-        </main>
+          <main className="flex-1 lg:ml-0">
+            <div className="p-6">{children}</div>
+          </main>
+        </div>
       </div>
     </div>
   );
