@@ -85,7 +85,7 @@ export default function UserMenu() {
             onClick={() => setIsOpen(false)}
           />
 
-          <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
+          <div className="absolute right-0 sm:right-0 left-4 sm:left-auto top-full mt-2 w-[calc(100vw-2rem)] sm:w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
             <div className="p-4 border-b border-gray-100">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12">
@@ -99,11 +99,11 @@ export default function UserMenu() {
                     {getInitials(user.first_name, user.last_name)}
                   </AvatarFallback>
                 </Avatar>
-                <div>
-                  <p className="font-semibold text-gray-900">
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-gray-900 truncate">
                     {user.first_name} {user.last_name}
                   </p>
-                  <p className="text-sm text-gray-500">{user.email}</p>
+                  <p className="text-sm text-gray-500 truncate">{user.email}</p>
                 </div>
               </div>
             </div>

@@ -76,20 +76,23 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-[1200px] mx-auto">
-      <section className="grid grid-cols-3 gap-20">
-        <aside className="col-span-2 space-y-4">
-          <div className="flex gap-20 items-center">
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-20">
+        <aside className="lg:col-span-2 space-y-4">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 lg:gap-20 items-start sm:items-center">
             <div className="space-y-2">
-              <p className="text-[#56616B] text-[16px] font-medium">
+              <p className="text-[#56616B] text-[14px] sm:text-[16px] font-medium">
                 Available Balance:
               </p>
 
-              <h1 className="font-bold text-[#131316] text-[36px]">
+              <h1 className="font-bold text-[#131316] text-[28px] sm:text-[32px] lg:text-[36px]">
                 USD {Number(data.balance).toFixed(2)}
               </h1>
             </div>
 
-            <Button className="rounded-full h-13 w-40 text-[16px]" size="lg">
+            <Button
+              className="rounded-full h-12 w-full sm:w-40 text-[14px] sm:text-[16px]"
+              size="lg"
+            >
               Withdraw
             </Button>
           </div>
@@ -97,61 +100,63 @@ export default function Dashboard() {
           <ChartLine transactions={filteredTransactions} />
         </aside>
 
-        <aside className="col-span-1 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between">
-              <p className="text-[#56616B] text-[16px] font-medium">
-                Ledger Balance:{" "}
-              </p>
+        <aside className="lg:col-span-1 flex flex-col justify-between space-y-6 lg:space-y-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="text-[#56616B] text-[14px] sm:text-[16px] font-medium">
+                  Ledger Balance:{" "}
+                </p>
 
-              <Image src="/info.svg" alt="info" width={20} height={20} />
+                <Image src="/info.svg" alt="info" width={20} height={20} />
+              </div>
+
+              <h2 className="font-bold text-[#131316] text-[24px] sm:text-[28px]">
+                USD {Number(data.ledger_balance).toFixed(2)}
+              </h2>
             </div>
 
-            <h2 className="font-bold text-[#131316] text-[28px]">
-              USD {Number(data.ledger_balance).toFixed(2)}
-            </h2>
-          </div>
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="text-[#56616B] text-[14px] sm:text-[16px] font-medium">
+                  Total Payout:{" "}
+                </p>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <p className="text-[#56616B] text-[16px] font-medium">
-                Total Payout:{" "}
-              </p>
+                <Image src="/info.svg" alt="info" width={20} height={20} />
+              </div>
 
-              <Image src="/info.svg" alt="info" width={20} height={20} />
+              <h2 className="font-bold text-[#131316] text-[24px] sm:text-[28px]">
+                USD {Number(data.total_payout).toFixed(2)}
+              </h2>
             </div>
 
-            <h2 className="font-bold text-[#131316] text-[28px]">
-              USD {Number(data.total_payout).toFixed(2)}
-            </h2>
-          </div>
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="text-[#56616B] text-[14px] sm:text-[16px] font-medium">
+                  Total Revenue:{" "}
+                </p>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <p className="text-[#56616B] text-[16px] font-medium">
-                Total Revenue:{" "}
-              </p>
+                <Image src="/info.svg" alt="info" width={20} height={20} />
+              </div>
 
-              <Image src="/info.svg" alt="info" width={20} height={20} />
+              <h2 className="font-bold text-[#131316] text-[24px] sm:text-[28px]">
+                USD {Number(data.total_revenue).toFixed(2)}
+              </h2>
             </div>
 
-            <h2 className="font-bold text-[#131316] text-[28px]">
-              USD {Number(data.total_revenue).toFixed(2)}
-            </h2>
-          </div>
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="text-[#56616B] text-[14px] sm:text-[16px] font-medium">
+                  Pending Payout:{" "}
+                </p>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <p className="text-[#56616B] text-[16px] font-medium">
-                Pending Payout:{" "}
-              </p>
+                <Image src="/info.svg" alt="info" width={20} height={20} />
+              </div>
 
-              <Image src="/info.svg" alt="info" width={20} height={20} />
+              <h2 className="font-bold text-[#131316] text-[24px] sm:text-[28px]">
+                USD {Number(data.pending_payout).toFixed(2)}
+              </h2>
             </div>
-
-            <h2 className="font-bold text-[#131316] text-[28px]">
-              USD {Number(data.pending_payout).toFixed(2)}
-            </h2>
           </div>
         </aside>
       </section>

@@ -82,19 +82,19 @@ const FilterDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[470px]">
+      <DialogContent className="w-[95vw] max-w-[470px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-bold text-[#131316] text-[24px]">
+          <DialogTitle className="font-bold text-[#131316] text-[20px] sm:text-[24px]">
             Filter
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="pb-4 space-y-6">
-          <div className="flex items-center gap-2">
+          <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
             {filterButtons.map((filter) => (
               <Button
                 key={filter.id}
-                className={`h-[36px] flex-1 rounded-full font-semibold border border-[#EFF1F6] bg-transparent ${
+                className={`h-[36px] flex-1 rounded-full font-semibold border border-[#EFF1F6] bg-transparent text-[12px] sm:text-[14px] ${
                   filters.period === filter.id
                     ? "bg-[#131316] hover:bg-[#131316] text-white"
                     : "bg-transparent hover:bg-[#EFF1F6] text-[#131316]"
@@ -107,12 +107,14 @@ const FilterDialog = ({
           </div>
 
           <div className="space-y-2">
-            <label className="font-semibold text-[#131316]">Date Range</label>
-            <div className="flex items-center gap-2 mt-2">
+            <label className="font-semibold text-[#131316] text-[14px] sm:text-[16px]">
+              Date Range
+            </label>
+            <div className="flex flex-col sm:flex-row items-center gap-2 mt-2">
               <Button
                 size="lg"
                 variant="outline"
-                className={`h-[48px] flex-1 justify-between text-left font-normal rounded-lg ${
+                className={`h-[48px] w-full sm:flex-1 justify-between text-left font-normal rounded-lg text-[12px] sm:text-[14px] ${
                   isFromCalendarOpen
                     ? "border-[#131316] border-3"
                     : "border-[#EFF1F6]"
@@ -135,7 +137,7 @@ const FilterDialog = ({
               <Button
                 size="lg"
                 variant="outline"
-                className={`h-[48px] flex-1 justify-between text-left font-normal rounded-lg ${
+                className={`h-[48px] w-full sm:flex-1 justify-between text-left font-normal rounded-lg text-[12px] sm:text-[14px] ${
                   isToCalendarOpen
                     ? "border-[#131316] border-3"
                     : "border-[#EFF1F6]"
@@ -180,7 +182,7 @@ const FilterDialog = ({
 
           {/* Transaction Type Multi-Select */}
           <div className="space-y-2">
-            <label className="font-semibold text-[#131316]">
+            <label className="font-semibold text-[#131316] text-[14px] sm:text-[16px]">
               Transaction Type
             </label>
 
@@ -188,7 +190,7 @@ const FilterDialog = ({
             <Button
               size="lg"
               variant="outline"
-              className={`h-[48px] w-full justify-between text-left font-normal rounded-lg ${
+              className={`h-[48px] w-full justify-between text-left font-normal rounded-lg text-[12px] sm:text-[14px] ${
                 isTypeDropdownOpen
                   ? "border-[#131316] border-3"
                   : "border-[#EFF1F6]"
@@ -199,7 +201,7 @@ const FilterDialog = ({
               }`}
               onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
             >
-              <span>
+              <span className="truncate">
                 {filters.types.length === 0
                   ? "Select Type"
                   : filters.types.length === 1
@@ -211,7 +213,7 @@ const FilterDialog = ({
                       )
                       .join(", ")}
               </span>
-              <ChevronDownIcon className="h-4 w-4" />
+              <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
             </Button>
 
             {isTypeDropdownOpen && (
@@ -242,7 +244,7 @@ const FilterDialog = ({
           </div>
 
           <div className="space-y-2">
-            <label className="font-semibold text-[#131316]">
+            <label className="font-semibold text-[#131316] text-[14px] sm:text-[16px]">
               Transaction Status
             </label>
 
@@ -250,7 +252,7 @@ const FilterDialog = ({
             <Button
               variant="outline"
               size="lg"
-              className={`h-[48px] w-full justify-between text-left font-normal rounded-lg ${
+              className={`h-[48px] w-full justify-between text-left font-normal rounded-lg text-[12px] sm:text-[14px] ${
                 isStatusDropdownOpen
                   ? "border-[#131316] border-3"
                   : "border-[#EFF1F6]"
@@ -261,7 +263,7 @@ const FilterDialog = ({
               }`}
               onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
             >
-              <span>
+              <span className="truncate">
                 {filters.statuses.length === 0
                   ? "Select Status"
                   : filters.statuses.length === 1
@@ -274,7 +276,7 @@ const FilterDialog = ({
                       )
                       .join(", ")}
               </span>
-              <ChevronDownIcon className="h-4 w-4" />
+              <ChevronDownIcon className="h-4 w-4 flex-shrink-0" />
             </Button>
 
             {isStatusDropdownOpen && (
@@ -307,11 +309,11 @@ const FilterDialog = ({
           </div>
 
           {/* Footer with Clear and Apply buttons */}
-          <div className="flex items-center gap-3 pt-20">
+          <div className="flex flex-col sm:flex-row items-center gap-3 pt-8 sm:pt-20">
             <Button
               variant="outline"
               size="lg"
-              className="h-12 flex-1 border-[#EFF1F6] text-[#131316] hover:bg-[#EFF1F6] rounded-full font-semibold"
+              className="h-12 w-full sm:flex-1 border-[#EFF1F6] text-[#131316] hover:bg-[#EFF1F6] rounded-full font-semibold text-[14px] sm:text-[16px]"
               onClick={() => {
                 const clearedFilters = {
                   period: null,
@@ -332,7 +334,7 @@ const FilterDialog = ({
             </Button>
             <Button
               size="lg"
-              className={`h-12 flex-1 rounded-full font-semibold disabled:bg-[#DBDEE5] disabled:text-[#fff] ${
+              className={`h-12 w-full sm:flex-1 rounded-full font-semibold text-[14px] sm:text-[16px] disabled:bg-[#DBDEE5] disabled:text-[#fff] ${
                 filters.period ||
                 filters.dateFrom ||
                 filters.dateTo ||

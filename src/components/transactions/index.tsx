@@ -50,21 +50,21 @@ const Transactions = ({
   }, [filteredTransactions, onFilteredTransactionsChange]);
 
   return (
-    <section className="mt-20">
-      <div className="flex items-center justify-between">
+    <section className="mt-12">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-[#131316] text-[24px] font-bold">
+          <h2 className="text-[#131316] text-[20px] sm:text-[24px] font-bold">
             {Number(filteredTransactions.length).toLocaleString()} Transactions
           </h2>
-          <p className="text-[#56616B] text-[16px] font-medium">
+          <p className="text-[#56616B] text-[14px] sm:text-[16px] font-medium">
             {getFilterDescription(appliedFilters, transactions.length)}
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Button
             size="lg"
-            className="px-2 rounded-full font-semibold bg-[#EFF1F6] hover:bg-[#EFF1F6] text-[#131316]"
+            className="px-2 rounded-full font-semibold bg-[#EFF1F6] hover:bg-[#EFF1F6] text-[#131316] text-[12px] sm:text-[14px]"
             onClick={() => {
               setDraftFilters({ ...appliedFilters });
               setIsFilterOpen(true);
@@ -82,7 +82,7 @@ const Transactions = ({
           </Button>
           <Button
             size="lg"
-            className="px-2 bg-[#EFF1F6] hover:bg-[#EFF1F6] text-[#131316] rounded-full font-semibold"
+            className="px-2 bg-[#EFF1F6] hover:bg-[#EFF1F6] text-[#131316] rounded-full font-semibold text-[12px] sm:text-[14px]"
             onClick={() => {
               const csvContent = [
                 [
@@ -122,7 +122,9 @@ const Transactions = ({
               window.URL.revokeObjectURL(url);
             }}
           >
-            Export List <DownloadIcon className="size-4" />
+            <span className="hidden sm:inline">Export List</span>
+            <span className="sm:hidden">Export</span>
+            <DownloadIcon className="size-4" />
           </Button>
         </div>
       </div>

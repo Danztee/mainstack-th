@@ -94,7 +94,7 @@ export function ChartLine({ transactions }: ChartLineProps) {
     return transformTransactionsToChartData(transactions);
   }, [transactions]);
   return (
-    <div className="w-full h-[300px]">
+    <div className="w-full h-[250px] sm:h-[300px]">
       <ChartContainer config={chartConfig} className="h-full w-full">
         <LineChart
           accessibilityLayer
@@ -102,10 +102,10 @@ export function ChartLine({ transactions }: ChartLineProps) {
           width={100}
           height={100}
           margin={{
-            left: 50,
-            right: 50,
+            left: 20,
+            right: 20,
             top: 20,
-            bottom: 50,
+            bottom: 40,
           }}
         >
           <CartesianGrid vertical={false} horizontal={false} />
@@ -113,7 +113,7 @@ export function ChartLine({ transactions }: ChartLineProps) {
             dataKey="day"
             tickLine={false}
             axisLine={false}
-            tickMargin={25}
+            tickMargin={15}
             interval={0}
             tickCount={2}
             ticks={
@@ -125,6 +125,7 @@ export function ChartLine({ transactions }: ChartLineProps) {
               const date = new Date(value);
               return formatDate(date);
             }}
+            fontSize={12}
           />
           <ChartTooltip
             cursor={false}
