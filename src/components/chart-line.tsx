@@ -123,9 +123,7 @@ export function ChartLine({ transactions }: ChartLineProps) {
             }
             tickFormatter={(value) => {
               const date = new Date(value);
-              const formattedDate = formatDate(date);
-              const parts = formattedDate.split(" ");
-              return `${parts[0]} ${parts[1]}, ${parts[2]}`;
+              return formatDate(date);
             }}
           />
           <ChartTooltip

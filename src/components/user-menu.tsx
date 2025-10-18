@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MenuIcon, ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { fetchUser } from "@/lib/actions";
 import { User } from "@/types";
@@ -80,13 +80,11 @@ export default function UserMenu() {
 
       {isOpen && (
         <>
-          {/* Backdrop */}
           <div
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
           />
 
-          {/* Menu */}
           <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
             <div className="p-4 border-b border-gray-100">
               <div className="flex items-center gap-3">

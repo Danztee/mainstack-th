@@ -7,6 +7,16 @@ import { cn } from "@/lib/utils";
 
 const THEMES = { light: "", dark: ".dark" } as const;
 
+interface ChartPayloadItem {
+  value?: number;
+  name?: string;
+  dataKey?: string;
+  color?: string;
+  fill?: string;
+  type?: string;
+  payload?: Record<string, unknown>;
+}
+
 export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode;
@@ -119,20 +129,23 @@ function ChartTooltipContent({
   labelKey,
 }: {
   active?: boolean;
-  payload?: any[];
+  payload?: ChartPayloadItem[];
   className?: string;
   indicator?: "line" | "dot" | "dashed";
   hideLabel?: boolean;
   hideIndicator?: boolean;
   label?: string;
-  labelFormatter?: (value: any, payload: any[]) => React.ReactNode;
+  labelFormatter?: (
+    value: unknown,
+    payload: ChartPayloadItem[]
+  ) => React.ReactNode;
   labelClassName?: string;
   formatter?: (
-    value: any,
+    value: unknown,
     name: string,
-    item: any,
+    item: ChartPayloadItem,
     index: number,
-    payload: any
+    payload: Record<string, unknown>
   ) => React.ReactNode;
   color?: string;
   nameKey?: string;
@@ -192,11 +205,11 @@ function ChartTooltipContent({
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
         {payload
-          .filter((item: any) => item.type !== "none")
-          .map((item: any, index: number) => {
+          .filter((item: ChartPayloadItem) => item.type !== "none")
+          .map((item: ChartPayloadItem, index: number) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
-            const indicatorColor = color || item.payload.fill || item.color;
+            const indicatorColor = color || item.payload?.fill || item.color;
 
             return (
               <div
@@ -207,7 +220,13 @@ function ChartTooltipContent({
                 )}
               >
                 {formatter && item?.value !== undefined && item.name ? (
-                  formatter(item.value, item.name, item, index, item.payload)
+                  formatter(
+                    item.value,
+                    item.name,
+                    item,
+                    index,
+                    item.payload || {}
+                  )
                 ) : (
                   <>
                     {itemConfig?.icon ? (
@@ -273,7 +292,7 @@ function ChartLegendContent({
 }: {
   className?: string;
   hideIcon?: boolean;
-  payload?: any[];
+  payload?: ChartPayloadItem[];
   verticalAlign?: "top" | "bottom";
   nameKey?: string;
 }) {
@@ -292,8 +311,8 @@ function ChartLegendContent({
       )}
     >
       {payload
-        .filter((item: any) => item.type !== "none")
-        .map((item: any) => {
+        .filter((item: ChartPayloadItem) => item.type !== "none")
+        .map((item: ChartPayloadItem) => {
           const key = `${nameKey || item.dataKey || "value"}`;
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
