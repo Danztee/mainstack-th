@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <div className="max-w-[1200px] mx-auto p-8">
       <section className="grid grid-cols-3 gap-20">
-        <aside className="col-span-2 space-y-16">
+        <aside className="col-span-2 space-y-4">
           <div className="flex gap-20 items-center">
             <div className="space-y-2">
               <p className="text-[#56616B] text-[16px] font-medium">
@@ -58,7 +58,7 @@ export default function Home() {
           <ChartLine transactions={filteredTransactions} />
         </aside>
 
-        <aside className="col-span-1 space-y-8">
+        <aside className="col-span-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <p className="text-[#56616B] text-[16px] font-medium">

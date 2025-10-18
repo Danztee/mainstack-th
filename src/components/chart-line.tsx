@@ -80,49 +80,53 @@ export function ChartLine({ transactions }: ChartLineProps) {
     return transformTransactionsToChartData(transactions);
   }, [transactions]);
   return (
-    <ChartContainer config={chartConfig}>
-      <LineChart
-        accessibilityLayer
-        data={chartData}
-        margin={{
-          left: 50,
-          right: 50,
-          top: 5,
-          bottom: 50,
-        }}
-      >
-        <CartesianGrid vertical={false} />
-        <XAxis
-          dataKey="day"
-          tickLine={false}
-          axisLine={false}
-          tickMargin={25}
-          interval={0}
-          tickCount={2}
-          ticks={
-            chartData.length > 0
-              ? [chartData[0].day, chartData[chartData.length - 1].day]
-              : []
-          }
-          tickFormatter={(value) => {
-            const date = new Date(value);
-            const formattedDate = formatDate(date);
-            const parts = formattedDate.split(" ");
-            return `${parts[0]} ${parts[1]}, ${parts[2]}`;
+    <div className="w-full h-[300px]">
+      <ChartContainer config={chartConfig} className="h-full w-full">
+        <LineChart
+          accessibilityLayer
+          data={chartData}
+          width="100%"
+          height="100%"
+          margin={{
+            left: 50,
+            right: 50,
+            top: 20,
+            bottom: 50,
           }}
-        />
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent hideLabel />}
-        />
-        <Line
-          dataKey="desktop"
-          type="natural"
-          stroke="var(--color-desktop)"
-          strokeWidth={2}
-          dot={false}
-        />
-      </LineChart>
-    </ChartContainer>
+        >
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="day"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={25}
+            interval={0}
+            tickCount={2}
+            ticks={
+              chartData.length > 0
+                ? [chartData[0].day, chartData[chartData.length - 1].day]
+                : []
+            }
+            tickFormatter={(value) => {
+              const date = new Date(value);
+              const formattedDate = formatDate(date);
+              const parts = formattedDate.split(" ");
+              return `${parts[0]} ${parts[1]}, ${parts[2]}`;
+            }}
+          />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <Line
+            dataKey="desktop"
+            type="natural"
+            stroke="var(--color-desktop)"
+            strokeWidth={2}
+            dot={false}
+          />
+        </LineChart>
+      </ChartContainer>
+    </div>
   );
 }

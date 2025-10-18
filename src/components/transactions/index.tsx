@@ -50,7 +50,7 @@ const Transactions = ({
   }, [filteredTransactions, onFilteredTransactionsChange]);
 
   return (
-    <section className="mt-10">
+    <section className="mt-20">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-[#131316] text-[24px] font-bold">
