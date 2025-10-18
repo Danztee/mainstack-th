@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, MenuIcon } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { fetchUser } from "@/lib/actions";
 import { User } from "@/types";
@@ -34,7 +34,7 @@ export default function UserMenu() {
     return (
       <div className="bg-[#EFF1F6] text-[#56616B] rounded-full p-2 flex items-center gap-2 px-4">
         <div className="h-10 w-10 bg-gray-200 rounded-full animate-pulse" />
-        <ChevronDownIcon className="h-6 w-6" />
+        <MenuIcon className="h-6 w-6" />
       </div>
     );
   }
@@ -75,7 +75,7 @@ export default function UserMenu() {
             {getInitials(user.first_name, user.last_name)}
           </AvatarFallback>
         </Avatar>
-        <ChevronDownIcon className="h-6 w-6" />
+        <MenuIcon className="h-6 w-6" />
       </button>
 
       {isOpen && (

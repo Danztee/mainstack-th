@@ -10,11 +10,11 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const links = [
-    { icon: "/home.svg", label: "Home", href: "/", isActive: false },
-    { icon: "/analytics.svg", label: "Analytics", href: "/", isActive: false },
-    { icon: "/revenue.svg", label: "Revenue", href: "/", isActive: true },
-    { icon: "/crm.svg", label: "CRM", href: "/", isActive: false },
-    { icon: "/apps.svg", label: "Apps", href: "/", isActive: false },
+    { icon: "/home.svg", label: "Home", href: "#", isActive: false },
+    { icon: "/analytics.svg", label: "Analytics", href: "#", isActive: false },
+    { icon: "/revenue.svg", label: "Revenue", href: "#", isActive: true },
+    { icon: "/crm.svg", label: "CRM", href: "#", isActive: false },
+    { icon: "/apps.svg", label: "Apps", href: "#", isActive: false },
   ];
 
   return (
