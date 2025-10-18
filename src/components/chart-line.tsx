@@ -19,7 +19,7 @@ interface ChartLineProps {
 const chartConfig = {
   desktop: {
     label: "Amount",
-    color: "var(--chart-1)",
+    color: "#FF5403",
   },
 } satisfies ChartConfig;
 
@@ -136,7 +136,7 @@ export function ChartLine({ transactions }: ChartLineProps) {
             dataKey="desktop"
             type="natural"
             stroke="var(--color-desktop)"
-            strokeWidth={2}
+            strokeWidth={1}
             dot={false}
           />
         </LineChart>
