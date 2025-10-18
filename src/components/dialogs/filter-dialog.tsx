@@ -10,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { format } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import {
@@ -19,6 +18,7 @@ import {
   TransactionStatus,
   TransactionType,
 } from "@/lib/filters";
+import { formatDate } from "@/lib/utils";
 
 interface FilterDialogProps {
   open: boolean;
@@ -127,7 +127,7 @@ const FilterDialog = ({
                 }}
               >
                 <span>
-                  {filters.dateFrom ? format(filters.dateFrom, "PPP") : "From"}
+                  {filters.dateFrom ? formatDate(filters.dateFrom) : "From"}
                 </span>
                 <ChevronDownIcon className="h-4 w-4" />
               </Button>
@@ -150,7 +150,7 @@ const FilterDialog = ({
                 }}
               >
                 <span>
-                  {filters.dateTo ? format(filters.dateTo, "PPP") : "To"}
+                  {filters.dateTo ? formatDate(filters.dateTo) : "To"}
                 </span>
                 <ChevronDownIcon className="h-4 w-4" />
               </Button>

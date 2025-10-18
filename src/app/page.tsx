@@ -1,18 +1,62 @@
+"use client";
+
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import Transactions from "@/components/transactions";
 import { fetchTransactions, fetchWalletData } from "@/lib/api";
 import { Transaction } from "@/types";
+import { Button } from "@/components/ui/button";
+import { ChartLine } from "@/components/chart-line";
 
-export default async function Home() {
-  const [transactions, data] = await Promise.all([
-    fetchTransactions(),
-    fetchWalletData(),
-  ]);
+export default function Home() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [data, setData] = useState({
+    balance: 0,
+    total_payout: 0,
+    total_revenue: 0,
+    pending_payout: 0,
+    ledger_balance: 0,
+  });
+  const [filteredTransactions, setFilteredTransactions] = useState<
+    Transaction[]
+  >([]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const [transactionsData, walletData] = await Promise.all([
+        fetchTransactions(),
+        fetchWalletData(),
+      ]);
+      setTransactions(transactionsData);
+      setData(walletData);
+      setFilteredTransactions(transactionsData);
+    };
+
+    loadData();
+  }, []);
 
   return (
     <div className="max-w-[1200px] mx-auto p-8">
-      <section className="grid grid-cols-3 gap-10">
-        <aside className="col-span-2"></aside>
+      <section className="grid grid-cols-3 gap-20">
+        <aside className="col-span-2 space-y-16">
+          <div className="flex gap-20 items-center">
+            <div className="space-y-2">
+              <p className="text-[#56616B] text-[16px] font-medium">
+                Available Balance:
+              </p>
+
+              <h1 className="font-bold text-[#131316] text-[36px]">
+                USD {Number(data.balance).toFixed(2)}
+              </h1>
+            </div>
+
+            <Button className="rounded-full h-13 w-40 text-[16px]" size="lg">
+              Withdraw
+            </Button>
+          </div>
+
+          <ChartLine transactions={filteredTransactions} />
+        </aside>
 
         <aside className="col-span-1 space-y-8">
           <div>
@@ -73,7 +117,10 @@ export default async function Home() {
         </aside>
       </section>
 
-      <Transactions transactions={transactions as Transaction[]} />
+      <Transactions
+        transactions={transactions as Transaction[]}
+        onFilteredTransactionsChange={setFilteredTransactions}
+      />
     </div>
   );
 }

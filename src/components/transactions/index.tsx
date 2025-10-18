@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import TransactionItem from "./transaction-item";
 import { Button } from "../ui/button";
 import { ChevronDownIcon, DownloadIcon } from "lucide-react";
@@ -16,9 +16,13 @@ import NoFilter from "./no-filter";
 
 interface TransactionsProps {
   transactions: Transaction[];
+  onFilteredTransactionsChange?: (filteredTransactions: Transaction[]) => void;
 }
 
-const Transactions = ({ transactions }: TransactionsProps) => {
+const Transactions = ({
+  transactions,
+  onFilteredTransactionsChange,
+}: TransactionsProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState<FilterState>({
     period: null,
@@ -38,6 +42,12 @@ const Transactions = ({ transactions }: TransactionsProps) => {
   const filteredTransactions = useMemo(() => {
     return filterTransactions(transactions, appliedFilters);
   }, [transactions, appliedFilters]);
+
+  useEffect(() => {
+    if (onFilteredTransactionsChange) {
+      onFilteredTransactionsChange(filteredTransactions);
+    }
+  }, [filteredTransactions, onFilteredTransactionsChange]);
 
   return (
     <section className="mt-10">

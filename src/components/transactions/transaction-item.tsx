@@ -1,27 +1,10 @@
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import { Transaction } from "@/types";
 
 const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
-  const date = new Date(transaction.date);
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const formattedDate = `${months[date.getMonth()]} ${String(
-    date.getDate()
-  ).padStart(2, "0")},${date.getFullYear()}`;
+  const formattedDate = formatDate(transaction.date);
 
   return (
     <div className="flex items-center justify-between">

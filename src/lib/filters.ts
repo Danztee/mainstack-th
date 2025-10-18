@@ -1,4 +1,5 @@
 import { Transaction } from "@/types";
+import { formatDate } from "./utils";
 
 export type FilterPeriod = "today" | "last7days" | "thisMonth" | "last3Months";
 export type TransactionStatus = "successful" | "pending" | "failed";
@@ -153,12 +154,12 @@ export function getFilterDescription(
   } else if (filters.dateFrom || filters.dateTo) {
     if (filters.dateFrom && filters.dateTo) {
       parts.push(
-        `from ${filters.dateFrom.toLocaleDateString()} to ${filters.dateTo.toLocaleDateString()}`
+        `from ${formatDate(filters.dateFrom)} to ${formatDate(filters.dateTo)}`
       );
     } else if (filters.dateFrom) {
-      parts.push(`from ${filters.dateFrom.toLocaleDateString()}`);
+      parts.push(`from ${formatDate(filters.dateFrom)}`);
     } else if (filters.dateTo) {
-      parts.push(`until ${filters.dateTo.toLocaleDateString()}`);
+      parts.push(`until ${formatDate(filters.dateTo)}`);
     }
   }
 
