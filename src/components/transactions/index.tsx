@@ -50,7 +50,7 @@ const Transactions = ({
   }, [filteredTransactions, onFilteredTransactionsChange]);
 
   return (
-    <section className="mt-12">
+    <section className="">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-[#131316] text-[20px] sm:text-[24px] font-bold">

@@ -92,18 +92,21 @@ export function ChartLine({ transactions }: ChartLineProps) {
     return transformTransactionsToChartData(transactions);
   }, [transactions]);
   return (
-    <div className="w-full h-[250px] sm:h-[300px]">
-      <ChartContainer config={chartConfig} className="h-full w-full">
+    <div className="w-full h-[300px] sm:h-[350px]">
+      <ChartContainer
+        config={chartConfig}
+        className="h-full w-full !aspect-none [&_.recharts-cartesian-axis-tick_text]:!overflow-visible [&_.recharts-cartesian-axis-tick_text]:!white-space-nowrap [&_.recharts-cartesian-axis-tick_text]:!text-left"
+      >
         <LineChart
           accessibilityLayer
           data={chartData}
           width={100}
           height={100}
           margin={{
-            left: 20,
-            right: 20,
+            left: 50,
+            right: 50,
             top: 20,
-            bottom: 40,
+            bottom: 140,
           }}
         >
           <CartesianGrid vertical={false} horizontal={false} />
@@ -111,7 +114,7 @@ export function ChartLine({ transactions }: ChartLineProps) {
             dataKey="day"
             tickLine={false}
             axisLine={false}
-            tickMargin={15}
+            tickMargin={20}
             interval={0}
             tickCount={2}
             ticks={
@@ -121,9 +124,16 @@ export function ChartLine({ transactions }: ChartLineProps) {
             }
             tickFormatter={(value) => {
               const date = new Date(value);
-              return formatDate(date);
+              const month = date.toLocaleDateString("en-US", {
+                month: "short",
+              });
+              const day = String(date.getDate()).padStart(2, "0");
+              const year = date.getFullYear();
+              return `${month} ${day}, ${year}`;
             }}
             fontSize={12}
+            angle={0}
+            textAnchor="middle"
           />
           <ChartTooltip
             cursor={false}
