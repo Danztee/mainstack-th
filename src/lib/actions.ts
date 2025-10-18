@@ -7,7 +7,7 @@ const API_BASE_URL = process.env.API_URL;
 export async function fetchTransactions(): Promise<Transaction[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/transactions`, {
-      cache: "no-store", // Ensure fresh data on each request
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -24,7 +24,7 @@ export async function fetchTransactions(): Promise<Transaction[]> {
 export async function fetchWalletData(): Promise<WalletData> {
   try {
     const response = await fetch(`${API_BASE_URL}/wallet`, {
-      cache: "no-store", // Ensure fresh data on each request
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -41,7 +41,7 @@ export async function fetchWalletData(): Promise<WalletData> {
 export async function fetchUser(): Promise<User> {
   try {
     const response = await fetch(`${API_BASE_URL}/user`, {
-      cache: "no-store", // Ensure fresh data on each request
+      cache: "no-store",
     });
 
     if (!response.ok) {

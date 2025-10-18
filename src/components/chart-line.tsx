@@ -28,7 +28,6 @@ function transformTransactionsToChartData(transactions: Transaction[]) {
   let endDate: Date;
 
   if (transactions.length === 0) {
-    // When no transactions, show current month with a straight horizontal line
     const now = new Date();
     startDate = new Date(now.getFullYear(), now.getMonth(), 1);
     endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
@@ -37,7 +36,6 @@ function transformTransactionsToChartData(transactions: Transaction[]) {
     const current = new Date(startDate);
 
     while (current <= endDate) {
-      // Create a straight horizontal line at 0
       result.push({
         day: formatDate(current),
         desktop: 0,
