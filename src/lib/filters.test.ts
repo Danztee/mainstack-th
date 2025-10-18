@@ -1,12 +1,9 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
   filterTransactions,
   getActiveFiltersCount,
   getFilterDescription,
   type FilterState,
-  type FilterPeriod,
-  type TransactionStatus,
-  type TransactionType,
 } from "./filters";
 import { Transaction } from "@/types";
 
@@ -160,14 +157,14 @@ describe("filterTransactions", () => {
 
     const originalDate = Date;
     global.Date = class extends Date {
-      constructor(...args: any[]) {
+      constructor(...args: unknown[]) {
         if (args.length === 0) {
           super(today);
         } else {
           super(...(args as ConstructorParameters<typeof Date>));
         }
       }
-    } as any;
+    } as typeof Date;
 
     const result = filterTransactions(mockTransactions, filters);
     expect(result).toHaveLength(4);
