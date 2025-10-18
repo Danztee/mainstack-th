@@ -64,19 +64,20 @@ const Transactions = ({
         <div className="flex items-center gap-2">
           <Button
             size="lg"
-            className={`px-2 rounded-full font-semibold ${
-              getActiveFiltersCount(appliedFilters) > 0
-                ? "bg-[#131316] hover:bg-[#131316] text-white"
-                : "bg-[#EFF1F6] hover:bg-[#EFF1F6] text-[#131316]"
-            }`}
+            className="px-2 rounded-full font-semibold bg-[#EFF1F6] hover:bg-[#EFF1F6] text-[#131316]"
             onClick={() => {
               setDraftFilters({ ...appliedFilters });
               setIsFilterOpen(true);
             }}
           >
             Filter{" "}
-            {getActiveFiltersCount(appliedFilters) > 0 &&
-              `(${getActiveFiltersCount(appliedFilters)})`}{" "}
+            {getActiveFiltersCount(appliedFilters) > 0 && (
+              <>
+                <span className="inline-flex items-center justify-center min-w-[20px] h-5 bg-[#131316] text-white rounded-full text-[12px] font-medium px-1.5">
+                  {getActiveFiltersCount(appliedFilters)}
+                </span>
+              </>
+            )}
             <ChevronDownIcon className="size-4" />
           </Button>
           <Button

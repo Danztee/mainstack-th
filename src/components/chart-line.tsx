@@ -24,7 +24,30 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 function transformTransactionsToChartData(transactions: Transaction[]) {
-  if (transactions.length === 0) return [];
+  let startDate: Date;
+  let endDate: Date;
+
+  if (transactions.length === 0) {
+    // When no transactions, show current month with a straight horizontal line
+    const now = new Date();
+    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    const result = [];
+    const current = new Date(startDate);
+
+    while (current <= endDate) {
+      // Create a straight horizontal line at 0
+      result.push({
+        day: formatDate(current),
+        desktop: 0,
+      });
+
+      current.setDate(current.getDate() + 1);
+    }
+
+    return result;
+  }
 
   const dates = transactions.map((t) => new Date(t.date));
   const minDate = new Date(Math.min(...dates.map((d) => d.getTime())));
@@ -47,17 +70,8 @@ function transformTransactionsToChartData(transactions: Transaction[]) {
     return acc;
   }, {} as Record<string, { day: string; desktop: number; date: Date }>);
 
-  let startDate: Date;
-  let endDate: Date;
-
-  if (transactions.length > 0) {
-    startDate = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
-    endDate = new Date(maxDate.getFullYear(), maxDate.getMonth() + 1, 0);
-  } else {
-    const now = new Date();
-    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-  }
+  startDate = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+  endDate = new Date(maxDate.getFullYear(), maxDate.getMonth() + 1, 0);
 
   const result = [];
   const current = new Date(startDate);
@@ -94,7 +108,7 @@ export function ChartLine({ transactions }: ChartLineProps) {
             bottom: 50,
           }}
         >
-          <CartesianGrid vertical={false} />
+          <CartesianGrid vertical={false} horizontal={false} />
           <XAxis
             dataKey="day"
             tickLine={false}
